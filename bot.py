@@ -6,9 +6,11 @@ import os
 import logging
 from dotenv import load_dotenv
 from telegram.ext import Application, CommandHandler
-
+from handlers import register_all_handlers 
 from database.db import init_db
-from handlers.menu import register_start_handler
+from handlers.menu import register_menu_handler
+from handlers.start import register_start_handler
+
 
 
 # -----------------------
@@ -19,6 +21,7 @@ logging.basicConfig(
     level=logging.INFO,
 )
 logger = logging.getLogger(__name__)
+
 
 # -----------------------
 # Main function
@@ -38,10 +41,12 @@ def main():
 
     # Register handlers
     register_start_handler(application)
+    register_menu_handler(application)
+    register_all_handlers(application)
 
     # Start polling
     logger.info("Bot started. Listening for updates...")
     application.run_polling()
 
 if __name__ == "__main__":
-    main()
+  main()
